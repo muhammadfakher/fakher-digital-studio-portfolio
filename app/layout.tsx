@@ -2,9 +2,17 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Muhammad Fakher Nadeem — Digital Creator & Developer",
+  title: "Fakher Nadeem | Video Editor, Graphic Designer & AI Video Creator",
   description:
-    "Video editing, graphic design, websites and AI-powered digital solutions by Muhammad Fakher Nadeem.",
+    "Portfolio of Fakher Nadeem, a video editor, graphic designer and AI video creator in Karachi, Pakistan. Available for fully remote full-time and part-time roles.",
+  keywords: [
+    "Fakher Nadeem",
+    "Video Editor",
+    "Graphic Designer",
+    "AI Video Creator",
+    "Remote Video Editor",
+    "360 Tech Solution",
+  ],
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
