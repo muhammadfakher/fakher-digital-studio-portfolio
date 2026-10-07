@@ -3,6 +3,8 @@ import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 
 const page = readFileSync(new URL("../app/page.tsx", import.meta.url), "utf8");
+const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
+const styles = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 const sampleFiles = [
   "cafe-reel.mp4",
   "linkedin-corporate-edit.mp4",
@@ -41,4 +43,36 @@ test("all four supplied video samples are playable local portfolio assets", () =
       `public/work/${file} should exist`,
     );
   }
+});
+
+test("mobile hero keeps the availability card and visual caption in separate layout space", () => {
+  const mobileStyles =
+    styles
+      .split("@media (max-width: 760px) {")[1]
+      ?.split("@media (max-width: 460px) {")[0] ?? "";
+  const smallMobileStyles =
+    styles.split("@media (max-width: 460px) {")[1]?.split("@media (prefers-reduced-motion")[0] ?? "";
+  const availabilityRule =
+    mobileStyles.match(/\.availability-card\s*\{([^}]*)\}/)?.[1] ?? "";
+  const captionRule =
+    mobileStyles.match(/\.visual-caption\s*\{([^}]*)\}/)?.[1] ?? "";
+  const smallMobileAvailabilityRule =
+    smallMobileStyles.match(/\.availability-card\s*\{([^}]*)\}/)?.[1] ?? "";
+
+  assert.match(availabilityRule, /position:\s*relative/);
+  assert.match(captionRule, /position:\s*static/);
+  assert.doesNotMatch(smallMobileAvailabilityRule, /(?:right|bottom):/);
+});
+
+test("the custom cursor is decorative, fine-pointer only, and disabled for reduced motion", () => {
+  assert.match(layout, /className="custom-cursor"\s+aria-hidden="true"/);
+  assert.match(page, /matchMedia\("\(hover: hover\) and \(pointer: fine\)"\)/);
+  assert.match(styles, /\.custom-cursor\s*\{/);
+  assert.match(styles, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.custom-cursor\s*\{[^}]*display:\s*none/);
+});
+
+test("additional pointer hover effects are present on navigation, portrait, and process steps", () => {
+  assert.match(styles, /\.nav-links\s+a(?::not\(\.nav-cta\))?::after\s*\{/);
+  assert.match(styles, /\.hero-visual:hover\s+\.hero-photo/);
+  assert.match(styles, /\.process-grid\s+article:hover/);
 });

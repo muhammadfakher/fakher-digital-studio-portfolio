@@ -18,7 +18,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <span className="custom-cursor" aria-hidden="true" />
+        {children}
+      </body>
     </html>
   );
 }

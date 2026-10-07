@@ -120,6 +120,47 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    const cursor = document.querySelector<HTMLElement>(".custom-cursor");
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (!cursor || !finePointer.matches || reduceMotion.matches) return;
+
+    const root = document.documentElement;
+    root.classList.add("has-custom-cursor");
+
+    const moveCursor = (event: PointerEvent) => {
+      root.style.setProperty("--cursor-x", `${event.clientX}px`);
+      root.style.setProperty("--cursor-y", `${event.clientY}px`);
+      cursor.classList.add("is-visible");
+
+      const target = event.target;
+      const isInteractive =
+        target instanceof Element &&
+        Boolean(target.closest("a, button, video, [role='button']"));
+      cursor.classList.toggle("is-hovering", isInteractive);
+    };
+
+    const leavePage = (event: PointerEvent) => {
+      if (!event.relatedTarget) {
+        cursor.classList.remove("is-visible", "is-hovering");
+      }
+    };
+
+    window.addEventListener("pointermove", moveCursor, { passive: true });
+    window.addEventListener("pointerout", leavePage);
+
+    return () => {
+      window.removeEventListener("pointermove", moveCursor);
+      window.removeEventListener("pointerout", leavePage);
+      cursor.classList.remove("is-visible", "is-hovering");
+      root.classList.remove("has-custom-cursor");
+      root.style.removeProperty("--cursor-x");
+      root.style.removeProperty("--cursor-y");
+    };
+  }, []);
+
   const closeMenu = () => setMenuOpen(false);
 
   return (
