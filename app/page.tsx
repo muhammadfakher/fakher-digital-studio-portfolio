@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import { bindExclusiveVideoPlayback } from "./video-playback.mjs";
 
 const contactEmail = "nadeemfakher02@gmail.com";
 const phoneNumber = "+923224791519";
@@ -100,6 +100,11 @@ const process = [
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const videos = Array.from(document.querySelectorAll("video"));
+    return bindExclusiveVideoPlayback(videos);
+  }, []);
 
   useEffect(() => {
     const revealItems = Array.from(
@@ -235,22 +240,29 @@ export default function Home() {
         </div>
 
         <div className="hero-visual" data-reveal>
-          <div className="portrait-frame">
-            <Image
-              className="hero-photo"
-              src="/images/fakher-nadeem.webp"
-              alt="Portrait of Fakher Nadeem"
-              fill
-              quality={92}
-              priority
-              sizes="(max-width: 800px) 88vw, 42vw"
-            />
-            <div className="portrait-shade" />
-            <div className="portrait-caption">
+          <div
+            className="creative-frame"
+            role="img"
+            aria-label="Abstract 360-degree visual for video editing, AI storytelling and graphic design"
+          >
+            <span className="creative-frame-index" aria-hidden="true">FN / 360°</span>
+            <span className="creative-orbit creative-orbit-one" aria-hidden="true" />
+            <span className="creative-orbit creative-orbit-two" aria-hidden="true" />
+            <span className="creative-orbit creative-orbit-three" aria-hidden="true" />
+            <span className="creative-orbit-dot creative-orbit-dot-one" aria-hidden="true" />
+            <span className="creative-orbit-dot creative-orbit-dot-two" aria-hidden="true" />
+            <div className="creative-core" aria-hidden="true">
+              <span className="creative-monogram">FN</span>
+              <span className="creative-degree">360°</span>
+              <span className="creative-wave"><i /><i /><i /><i /><i /><i /><i /></span>
+            </div>
+            <span className="creative-chip creative-chip-video" aria-hidden="true">VIDEO EDIT</span>
+            <span className="creative-chip creative-chip-ai" aria-hidden="true">AI STORIES</span>
+            <span className="creative-chip creative-chip-design" aria-hidden="true">DESIGN</span>
+            <div className="creative-caption" aria-hidden="true">
               <span>FAKHER NADEEM</span>
               <strong>Editor. Designer. Storyteller.</strong>
             </div>
-            <div className="portrait-index" aria-hidden="true">FN / 01</div>
           </div>
           <div className="availability-card">
             <span className="availability-icon" aria-hidden="true">↗</span>
@@ -286,7 +298,7 @@ export default function Home() {
                 <video
                   controls
                   playsInline
-                  preload="metadata"
+                  preload="none"
                   poster={sample.poster}
                   aria-label={`Play ${sample.title}`}
                 >
