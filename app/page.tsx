@@ -31,6 +31,22 @@ const services = [
 
 const workSamples = [
   {
+    title: "Luxury Villa AI Promo",
+    category: "AI REAL ESTATE PROMO",
+    details: "AI-generated villa promo · 37 sec · Vertical",
+    video: "/work/ai-luxury-villa-promo.mp4",
+    poster: "/work/ai-luxury-villa-promo-poster.jpg",
+    layout: "portrait",
+  },
+  {
+    title: "Live Concert Teaser",
+    category: "LIVE EVENT TEASER",
+    details: "Concert teaser · 11 sec · Vertical",
+    video: "/work/islamabad-live-concert-teaser.mp4",
+    poster: "/work/islamabad-live-concert-teaser-poster.jpg",
+    layout: "portrait",
+  },
+  {
     title: "Cafe Social Reel",
     category: "FOOD & HOSPITALITY",
     details: "Social reel · 15 sec · Vertical",
@@ -258,8 +274,8 @@ export default function Home() {
             <h2>Made to be<br /><em>watched.</em></h2>
           </div>
           <p className="section-intro">
-            Video edits, a brand promo and an AI-generated story. Press play to
-            watch each sample.
+            AI promos, event teasers, brand reels and story-driven edits. Press
+            play to watch each sample.
           </p>
         </div>
 
